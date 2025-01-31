@@ -29,14 +29,14 @@ class DicePoker:
     def roll_again(self, change):
         """Second chance rolling, changing a few or all dice rolls. By accepting the value to be changed in the list and replacing it
         with the new value from the dice roll in method roll()."""
-        if change in self.dice:
+        if change == 0:
+            pass
+        elif change in self.dice:
             print(f"Changes {change}: new roll: {self.roll()}")
             for i in range(len(self.dice)):
-                if self.dice[i] == change:  # and  not(new_roll):
+                if self.dice[i] == change:
                     self.dice[i] = self.msd.get_value()
                     return False
-        elif change == 0:
-            pass
         else:
             print(change)
             print(self.dice)
@@ -55,24 +55,23 @@ class DicePoker:
     def new_score(self):
         """Adds to the current score according to a payout schedule. If the user got a two pairs, three of a kind, full house, four of a kind,
         straight or five of a kind, else they get nothing"""
-        if self.kind == "TwoPair":
-            self.score += 5
-        elif self.kind == "ThreeKind":
-            self.score += 8
-        elif self.kind == "FullHouse":
-            self.score += 12
-        elif self.kind == "FourKind":
-            self.score += 15
-        elif self.kind == "Straight":
-            self.score += 20
-        elif self.kind == "FiveKind":
-            self.score += 30
+        points = {
+            "Skip": 0,
+            "Pair": 2,
+            "TwoPair": 5,
+            "ThreeKind": 8,
+            "FullHouse": 12,
+            "FourKind": 15,
+            "Straight": 20,
+            "FiveKind": 30,
+        }
+        self.score += points[self.kind]
 
     def hand_check(self):
         """Sorts the dice list in ascending order and then checks for a matching pattern of two pairs, three of a kind, full house, four of a kind,
         straight or five of a kind"""
         self.dice.sort()
-        kind = [len(list(group)) for key, group in groupby(self.dice)]
+        kind = [len(list(group)) for _, group in groupby(self.dice)]
         if len(kind) == 3:
             if 2 in kind:
                 print("\n**Two Pair: +5")
@@ -98,9 +97,14 @@ class DicePoker:
             if strait:
                 print("\n**Straight: +20")
                 self.kind = "Straight"
+            else:
+                self.kind = "Skip"
         elif len(kind) == 1:
             print("\n**Five of a Kind: +30")
             self.kind = "FiveKind"
+        elif len(kind) == 4:
+            print("\n**Pair: +2")
+            self.kind = "Pair"
 
 
 # Instantiating classes
