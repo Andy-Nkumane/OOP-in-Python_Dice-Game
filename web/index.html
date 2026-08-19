@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A polished browser interface for Dice Poker.">
+  <title>Dice Poker</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+  <script src="app.js?v=5" defer></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <main>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Dice Poker home">
+        <span class="brand-mark">DP</span>
+        <span>Dice Poker</span>
+      </a>
+      <div class="header-actions">
+        <button class="nav-button" id="settings-button" type="button">Settings</button>
+        <button class="nav-button game-control" id="restart-button" type="button" disabled>Restart</button>
+        <button class="nav-button game-control danger" id="end-button" type="button" disabled>End game</button>
+        <div class="score-card" aria-live="polite">
+          <span>Bank</span>
+          <strong id="score">100</strong>
+          <span>pts</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="game-shell">
+      <div class="intro">
+        <p class="eyebrow">House game · Five dice</p>
+        <h1>Roll bold.<br><em>Hold smart.</em></h1>
+        <p class="lede">Build your best poker hand in one roll and one redraw. Each round costs 10 points.</p>
+      </div>
+
+      <div class="table" aria-labelledby="table-title">
+        <div class="table-head">
+          <div>
+            <p class="table-label">Current hand</p>
+            <h2 id="table-title">Ready to roll?</h2>
+            <p class="hand-payout" id="hand-payout" aria-live="polite"></p>
+          </div>
+          <div class="round-cost">−10 <span>per roll</span></div>
+        </div>
+
+        <div class="dice-tray" id="dice-tray" aria-label="Your dice">
+          <button class="die" type="button" data-index="0" disabled><span>?</span></button>
+          <button class="die" type="button" data-index="1" disabled><span>?</span></button>
+          <button class="die" type="button" data-index="2" disabled><span>?</span></button>
+          <button class="die" type="button" data-index="3" disabled><span>?</span></button>
+          <button class="die" type="button" data-index="4" disabled><span>?</span></button>
+        </div>
+
+        <p class="hint" id="hint">Start a game, then take your first roll.</p>
+        <p class="error" id="error" role="alert"></p>
+
+        <div class="actions">
+          <button class="button primary" id="roll" type="button" disabled>Roll the dice</button>
+          <button class="button secondary" id="keep" type="button" hidden>Keep hand</button>
+          <button class="button primary" id="reroll" type="button" hidden>Reroll selected</button>
+        </div>
+        <div class="game-over-actions" id="game-over-actions" hidden>
+          <p>Your bank is below the 10 points needed for another roll.</p>
+          <div class="actions">
+            <button class="button primary" id="game-over-restart" type="button">Restart game</button>
+            <button class="button secondary" id="game-over-exit" type="button">Exit to main menu</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="payouts" aria-label="Hand payouts">
+        <div class="payout-heading">
+          <p class="eyebrow">Payout table</p>
+          <span>Points</span>
+        </div>
+        <ol>
+          <li><span>Five of a kind</span><strong>+30</strong></li>
+          <li><span>Straight</span><strong>+20</strong></li>
+          <li><span>Four of a kind</span><strong>+15</strong></li>
+          <li><span>Full house</span><strong>+12</strong></li>
+          <li><span>Three of a kind</span><strong>+8</strong></li>
+          <li><span>Two pair</span><strong>+5</strong></li>
+          <li><span>Pair</span><strong>+2</strong></li>
+        </ol>
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="main-menu">
+    <div class="menu-panel">
+      <div class="dialog-mark">◆</div>
+      <p class="eyebrow">Welcome to the table</p>
+      <h2>Dice Poker</h2>
+      <p>Build the strongest hand you can with five dice and one redraw.</p>
+      <button class="button primary" id="start-button" type="button">Start game</button>
+      <button class="button menu-secondary" id="menu-settings-button" type="button">Settings</button>
+      <p class="menu-detail"><span id="menu-sides">6</span>-sided dice · <span id="menu-score">100</span> points · <span id="menu-theme">Dark</span> table</p>
+    </div>
+  </dialog>
+
+  <dialog id="settings">
+    <form method="dialog" id="settings-form">
+      <div class="dialog-mark">◆</div>
+      <p class="eyebrow">Table preferences</p>
+      <h2>Settings</h2>
+      <label for="sides">Sides per die</label>
+      <div class="stepper">
+        <button type="button" id="minus" aria-label="Decrease sides">−</button>
+        <input id="sides" name="sides" type="number" min="4" max="20" value="6" required>
+        <button type="button" id="plus" aria-label="Increase sides">+</button>
+      </div>
+      <label for="starting-score">Starting points</label>
+      <div class="score-input">
+        <input id="starting-score" name="starting-score" type="number" min="10" step="10" value="100" required>
+        <span>points</span>
+      </div>
+      <fieldset class="theme-picker">
+        <legend>Appearance</legend>
+        <label><input type="radio" name="theme" value="dark" checked><span>Dark</span></label>
+        <label><input type="radio" name="theme" value="light"><span>Light</span></label>
+      </fieldset>
+      <button class="button primary" type="submit">Save settings</button>
+      <button class="button menu-secondary" id="cancel-settings" type="button">Cancel</button>
+    </form>
+  </dialog>
+</body>
+</html>

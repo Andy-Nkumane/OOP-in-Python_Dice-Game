@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,700&family=Work+Sans:wght@400;500;600&display=swap');
+
+:root { --ink:#f4eddf; --muted:#a8ad9e; --gold:#e7b44a; --felt:#173e35; --dark:#071b18; --red:#d8614f; }
+html[data-theme="light"] { --ink:#18352e; --muted:#65776f; --gold:#a96e05; --felt:#dce8df; --dark:#eef2e9; --red:#bb4637; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; color:var(--ink); background:radial-gradient(circle at 65% 5%, #275548 0, var(--dark) 46%, #04100e 100%); font-family:"Work Sans",sans-serif; }
+html[data-theme="light"] body { background:radial-gradient(circle at 65% 5%, #fff 0, var(--dark) 52%, #d8e2d8 100%); }
+body::before { content:""; position:fixed; inset:0; opacity:.14; pointer-events:none; background-image:repeating-linear-gradient(115deg,transparent 0 12px,#88a99b 13px,transparent 14px); }
+.grain { position:fixed; inset:0; pointer-events:none; opacity:.08; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+main { position:relative; max-width:1240px; margin:auto; padding:28px 32px 56px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ffffff1f; padding-bottom:22px; }
+.brand { color:inherit; text-decoration:none; display:flex; align-items:center; gap:12px; font-weight:600; letter-spacing:.04em; }
+.brand-mark { display:grid; place-items:center; width:38px; aspect-ratio:1; border:1px solid var(--gold); transform:rotate(45deg); color:var(--gold); font:500 12px "DM Mono"; }
+.brand-mark::first-letter { transform:rotate(-45deg); }
+.score-card { display:flex; gap:8px; align-items:baseline; text-transform:uppercase; letter-spacing:.12em; font:500 11px "DM Mono"; color:var(--muted); }
+.score-card strong { color:var(--gold); font:700 26px "Playfair Display"; letter-spacing:0; }
+.header-actions { display:flex; align-items:center; gap:10px; }.nav-button { border:0; border-bottom:1px solid transparent; padding:8px 4px; color:var(--muted); background:transparent; cursor:pointer; font:500 10px "DM Mono"; letter-spacing:.08em; text-transform:uppercase; }.nav-button:hover:not(:disabled) { color:var(--gold); border-color:var(--gold); }.nav-button.danger:hover:not(:disabled){color:var(--red);border-color:var(--red)}.nav-button:disabled{display:none}.score-card{margin-left:8px}
+.game-shell { display:grid; grid-template-columns:minmax(220px,.75fr) minmax(430px,1.55fr) minmax(210px,.65fr); gap:44px; align-items:center; min-height:calc(100vh - 120px); }
+.eyebrow { margin:0 0 15px; color:var(--gold); font:500 11px "DM Mono"; letter-spacing:.18em; text-transform:uppercase; }
+h1 { margin:0; font:700 clamp(47px,6vw,76px)/.98 "Playfair Display"; letter-spacing:-.04em; }
+h1 em { color:var(--gold); font-weight:700; }
+.lede { color:var(--muted); line-height:1.7; max-width:31ch; margin:28px 0 0; }
+.table { position:relative; padding:34px; border:1px solid #ffffff24; background:linear-gradient(145deg,#27594a99,#10382fdd); box-shadow:0 30px 80px #0006,inset 0 1px #ffffff12; }
+html[data-theme="light"] .table { border-color:#173e3533; background:linear-gradient(145deg,#f9fbf6dd,#dce9dfdd); box-shadow:0 30px 70px #38594b2b,inset 0 1px #fff; }
+.table::before,.table::after { content:""; position:absolute; width:18px; height:18px; border-color:var(--gold); }
+.table::before { left:-1px; top:-1px; border-left:2px solid var(--gold); border-top:2px solid var(--gold); }
+.table::after { right:-1px; bottom:-1px; border-right:2px solid var(--gold); border-bottom:2px solid var(--gold); }
+.table-head,.payout-heading { display:flex; justify-content:space-between; align-items:start; }
+.table-label { margin:0 0 5px; color:var(--muted); text-transform:uppercase; letter-spacing:.14em; font:10px "DM Mono"; }
+h2 { margin:0; font:700 27px "Playfair Display"; }
+.hand-payout { min-height:20px; margin:7px 0 0; color:var(--gold); font:500 12px "DM Mono"; letter-spacing:.08em; text-transform:uppercase; }
+.hand-payout.no-win { color:var(--muted); }
+.round-cost { color:var(--red); font:500 14px "DM Mono"; }.round-cost span { display:block; color:var(--muted); font-size:9px; text-transform:uppercase; }
+.dice-tray { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:38px 0 20px; }
+.die { cursor:pointer; border:0; aspect-ratio:1; color:#17332d; background:#f2e8d7; box-shadow:0 7px 0 #c5bcae,0 12px 25px #0005; font:700 clamp(27px,3vw,42px) "Playfair Display"; transition:.18s ease; }
+.die:not(:disabled):hover { transform:translateY(-4px); }.die.selected { color:#fff; background:var(--red); box-shadow:0 7px 0 #893d32,0 12px 25px #0005; transform:translateY(-5px); }
+.die:disabled { cursor:default; opacity:.55; }.die.rolling { animation:tumble .45s ease; }
+@keyframes tumble { 50% { transform:translateY(-15px) rotate(8deg); } }
+.hint { min-height:22px; text-align:center; color:var(--muted); font-size:13px; }.error { min-height:18px; margin:0; color:#ff8978; text-align:center; font-size:12px; }
+.actions { display:flex; gap:10px; justify-content:center; margin-top:16px; }.button { border:0; padding:15px 23px; cursor:pointer; text-transform:uppercase; letter-spacing:.13em; font:600 11px "Work Sans"; }.button.primary { background:var(--gold); color:#14231f; }.button.secondary { background:transparent; color:var(--ink); border:1px solid #ffffff44; }.button:disabled { opacity:.4; cursor:not-allowed; }
+.game-over-actions{margin-top:20px;padding:20px;border:1px solid #d8614f66;background:#d8614f12;text-align:center}.game-over-actions p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.game-over-actions .actions{margin-top:14px}
+.payouts { border-left:1px solid #ffffff22; padding-left:25px; }.payout-heading > span { color:var(--muted); font:10px "DM Mono"; text-transform:uppercase; }.payouts ol { list-style:none; padding:0; margin:5px 0 0; }.payouts li { display:flex; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid #ffffff12; color:var(--muted); font-size:12px; }.payouts strong { color:var(--ink); font:500 12px "DM Mono"; }
+dialog { color:var(--ink); width:min(430px,calc(100% - 30px)); border:1px solid #e7b44a66; padding:0; background:#0d2c26; box-shadow:0 40px 100px #000b; } html[data-theme="light"] dialog{background:#f4f6ef} dialog::backdrop { background:#020b09dd; backdrop-filter:blur(8px); } dialog form,.menu-panel { padding:44px; text-align:center; } dialog h2 { font-size:38px; } dialog p:not(.eyebrow) { color:var(--muted); line-height:1.6; } dialog form>label { display:block; margin:28px 0 10px; color:var(--muted); font-size:12px; }.dialog-mark { color:var(--gold); margin-bottom:20px; }.stepper { display:grid; grid-template-columns:48px 1fr 48px; margin-bottom:22px; }.stepper button,.stepper input { border:1px solid #ffffff2b; height:50px; color:var(--ink); background:#ffffff09; font:500 18px "DM Mono"; text-align:center; }html[data-theme="light"] .stepper button,html[data-theme="light"] .stepper input{border-color:#173e3533}.stepper button { cursor:pointer; }.stepper input { border-left:0; border-right:0; width:100%; }.stepper input::-webkit-inner-spin-button { appearance:none; } dialog .button { width:100%; }.menu-secondary{margin-top:10px;color:var(--muted);background:transparent;border:1px solid #ffffff2b}.menu-detail{margin:22px 0 0!important;font:10px "DM Mono";text-transform:uppercase;letter-spacing:.1em}.theme-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;border:0;padding:0;margin:0 0 22px}.theme-picker legend{width:100%;margin:0 0 10px;color:var(--muted);font-size:12px}.theme-picker label{margin:0;cursor:pointer}.theme-picker input{position:absolute;opacity:0}.theme-picker span{display:block;padding:14px;border:1px solid #ffffff2b;color:var(--muted);font:500 11px "DM Mono";text-transform:uppercase}.theme-picker input:checked+span{border-color:var(--gold);color:var(--gold);background:#e7b44a12}
+.score-input{display:flex;align-items:center;margin-bottom:22px;border:1px solid #ffffff2b;background:#ffffff09}.score-input input{min-width:0;width:100%;height:50px;padding:0 15px;border:0;outline:0;color:var(--ink);background:transparent;font:500 18px "DM Mono";text-align:center}.score-input span{padding-right:15px;color:var(--muted);font:10px "DM Mono";letter-spacing:.08em;text-transform:uppercase}html[data-theme="light"] .score-input{border-color:#173e3533}
+@media(max-width:900px){ .game-shell{grid-template-columns:1fr; padding-top:55px}.intro{text-align:center}.lede{margin:20px auto}.payouts{border-left:0;border-top:1px solid #ffffff22;padding:25px 0 0}.game-shell{gap:38px} }
+@media(max-width:540px){main{padding:20px 16px 40px}.brand>span:last-child{display:none}.header-actions{gap:6px}.nav-button{font-size:9px}.table{padding:24px 16px}.dice-tray{gap:7px}.actions{flex-direction:column}.button{width:100%}h1{font-size:48px}.intro{padding-top:10px}dialog form,.menu-panel{padding:34px 24px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

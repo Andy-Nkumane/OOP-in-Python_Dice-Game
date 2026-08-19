@@ -6,9 +6,11 @@ from multi_sided_die import MultiSidedDie
 class DicePoker:
 
     # Initialiser
-    def __init__(self, die_side_num):
+    def __init__(self, die_side_num, starting_score=100):
         """Initializes score to 100 and takes in another object MultiSidedDie as msd"""
-        self.score = 100
+        if starting_score < 10:
+            raise ValueError("Starting score must be at least 10.")
+        self.score = starting_score
         self.msd = die_side_num
 
     def get_value(self):
@@ -87,14 +89,7 @@ class DicePoker:
                 print("\n**Four of a Kind: +15")
                 self.kind = "FourKind"
         elif len(kind) == 5:
-            strait = True
-            try:
-                for i in range(self.dice[0], self.dice[-1] + 1):
-                    if not (i == self.dice[i - 1]):
-                        strait = False
-            except:
-                strait = False
-            if strait:
+            if self.dice == list(range(self.dice[0], self.dice[0] + 5)):
                 print("\n**Straight: +20")
                 self.kind = "Straight"
             else:
@@ -107,70 +102,74 @@ class DicePoker:
             self.kind = "Pair"
 
 
-# Instantiating classes
-die_side_num = int(input("Enter number of sides the dice will have: "))
-die = MultiSidedDie(die_side_num)
-rol = DicePoker(die)
+def main():
+    """Run the original command-line version of the game."""
+    die_side_num = int(input("Enter number of sides the dice will have: "))
+    die = MultiSidedDie(die_side_num)
+    rol = DicePoker(die)
 
-# Print current score. Roll dice 5 times by calling play_get_value() method.
-print(f"Score: {rol.score}")
-play_again = "y"
-while (play_again == "y") and (rol.score > 9):
-    print(rol.play_get_value())
-    rol.play()
+    print(f"Score: {rol.score}")
+    play_again = "y"
+    while (play_again == "y") and (rol.score > 9):
+        print(rol.play_get_value())
+        rol.play()
 
     # Option for a second chances is granted, should the user feel disastisfied with the current die roll. The user can change a few or all die rolls.
-    second_chance = ""
-    while not ((second_chance == "y") or (second_chance == "n")):
-        second_chance = input(
-            'Do you want to use your second chance? "y" for yes, "n" for no: '
-        )
+        second_chance = ""
+        while not ((second_chance == "y") or (second_chance == "n")):
+            second_chance = input(
+                'Do you want to use your second chance? "y" for yes, "n" for no: '
+            )
 
         # When user chooses to use their second chance, they will be prompted to enter of dice rolls they want to change.
-        if second_chance == "y":
-            print("Second Chance Invoked")
-            roll_num = int(input("How many die do you want to re-roll? "))
-
-            # If the number of dice roll change is greater than 5 or smaller than 1, an appropriate error message will be displayed and will be prompted again to enter number of dice rolls to change.
-            while (roll_num < 1) or (roll_num > 5):
-                print("\n >> Invalid entry!! Entry should be 1-5 <<")
+            if second_chance == "y":
+                print("Second Chance Invoked")
                 roll_num = int(input("How many die do you want to re-roll? "))
 
+            # If the number of dice roll change is greater than 5 or smaller than 1, an appropriate error message will be displayed and will be prompted again to enter number of dice rolls to change.
+                while (roll_num < 1) or (roll_num > 5):
+                    print("\n >> Invalid entry!! Entry should be 1-5 <<")
+                    roll_num = int(input("How many die do you want to re-roll? "))
+
             # Iterating over the number of specified for die roll change, user inserts the value that needs to be changed.
-            for i in range(roll_num):
-                changes = int(
-                    input(
-                        'Enter value you wish to change, to skip 1 dice roll enter "0": '
+                for i in range(roll_num):
+                    changes = int(
+                        input(
+                            'Enter value you wish to change, to skip 1 dice roll enter "0": '
+                        )
                     )
-                )
 
                 # Method roll_again() returns True or False. If True is returned, an invalid number was entered and the user has to re-enter until a valid number has been entered.
-                while rol.roll_again(changes):
-                    changes = int(input("Enter value you wish to change: "))
+                    while rol.roll_again(changes):
+                        changes = int(input("Enter value you wish to change: "))
 
             # At the end of changing die roll, method hand_check() is called to check new hand for patterns specified in hand_check(), method get_value() is displayed and method new_score() is called.
-            rol.hand_check()
-            print(rol.get_value())
-            rol.new_score()
+                rol.hand_check()
+                print(rol.get_value())
+                rol.new_score()
 
         # When the user chooses not to use their second chance, method new_score() is called.
-        elif second_chance == "n":
-            rol.new_score()
+            elif second_chance == "n":
+                rol.new_score()
 
         # Inserted value does not equal 'y' or 'n'. Appropriate error message is displayed.
-        else:
-            print("Invalid input!! Try again")
+            else:
+                print("Invalid input!! Try again")
 
     # displays new score after round cost deduction and if any score increase from winning hand.
-    print(f"New score: {rol.score}")
+        print(f"New score: {rol.score}")
 
     # If score goes below 10, it is game over as user does not have enough to play another round.
-    if rol.score < 10:
-        print("** Game Over! **")
-        exit()
+        if rol.score < 10:
+            print("** Game Over! **")
+            return
 
     # Prompts user to continue playing or quit playing after each round of playing
-    else:
-        play_again = input(
-            'Do you want to play again? "y" for yes, any character to stop: '
-        )
+        else:
+            play_again = input(
+                'Do you want to play again? "y" for yes, any character to stop: '
+            )
+
+
+if __name__ == "__main__":
+    main()
